@@ -25,11 +25,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 enum custom_keycodes {
   KC_WINLCK,    //Toggles Win key on and off
+  KC_BSDEL,
 };
 
 bool _isWinKeyDisabled = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  static bool bsdel_mods = false;
     switch (keycode) {
     case KC_WINLCK:
         if (record->event.pressed) {
@@ -41,6 +43,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
         } else  unregister_code16(keycode);
         break;
+
+    case KC_BSDEL:
+      if (record->event.pressed) {
+        if (get_mods() & MOD_BIT(KC_LSFT)) {
+          unregister_code(KC_LSFT);
+          register_code(KC_DEL);
+          bsdel_mods = true;
+        } else {
+          register_code(KC_BSPC);
+        }
+      } else {
+        if (bsdel_mods) {
+          unregister_code(KC_DEL);
+          register_code(KC_LSFT);
+          bsdel_mods = false;
+        } else {
+          unregister_code(KC_BSPC);
+        }
+      }
+      return false;
+      break;    
     }
     return true;
 };
@@ -86,7 +109,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	
     [1] = LAYOUT(
         _______, RGB_TOG, _______, _______, NK_TOGG, KC_MPRV, KC_MNXT, KC_MPLY, KC_MSTP, _______, _______, _______, KC_PSCR,  KC_INS,          KC_MUTE,
-          TO(0),   TO(1),   TO(2),   TO(3), _______, _______, _______,   KC_P7,   KC_P8,   KC_P9, KC_P0,   KC_PMNS, KC_PPLS, _______,          _______,
+          TO(0),   TO(1),   TO(2),   TO(3), _______, _______, _______,   KC_P7,   KC_P8,   KC_P9, KC_P0,   KC_PMNS, KC_PPLS, KC_BSDEL,         _______,
         _______, KC_HOME,  KC_UP,   KC_END, KC_PGUP, _______, _______,   KC_P4,   KC_P5,   KC_P6, KC_PENT, KC_PAST, KC_PSLS, RESET,            _______,
         KC_CAPL1, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______, _______,  KC_P1,   KC_P2,   KC_P3, KC_PENT, _______,          _______,          _______,
         _______,          _______, _______, _______, _______, _______,   KC_P0,   KC_P0, KC_PDOT, KC_NLCK, _______,          _______, _______, _______,
@@ -96,9 +119,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [2] = LAYOUT(
         _______, RGB_M_P, RGB_M_B, RGB_M_R, _______, _______, _______, _______, _______, _______, _______, KC_SLEP, KC_PSCR, KC_INS,           KC_MUTE,
           TO(0),   TO(1),   TO(2),   TO(3), _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          RGB_SAI,
-        _______, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______, _______, _______, _______, _______, _______, _______, _______,   RESET,          RGB_SAD,
-        _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______, _______, _______, _______, _______, _______, _______,          _______,          RGB_HUI,
-        _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, RGB_MOD, RGB_HUD,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,   RESET,          RGB_SAD,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          RGB_HUI,
+        _______,          _______, _______, KC_CALC, _______, _______, _______, C(S(KC_ESC)), _______, _______, _______,          _______, RGB_MOD, RGB_HUD,
         _______, _______, _______,                            _______,                            _______, TO(0),   _______, RGB_VAD, RGB_RMOD, RGB_VAI
     ),
 
