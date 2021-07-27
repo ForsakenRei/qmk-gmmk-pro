@@ -129,8 +129,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, RGB_TOG, _______, _______, NK_TOGG, KC_MPRV, KC_MNXT, KC_MPLY, KC_MSTP, _______, _______, _______, KC_PSCR, KC_INS,           KC_MUTE,
           TO(0),   TO(1),   TO(2),   TO(3), _______, _______, _______,   KC_P7,   KC_P8,   KC_P9, KC_P0,   KC_PMNS, KC_PPLS, KC_BSDEL,         _______,
         _______, KC_HOME,  KC_UP,   KC_END, KC_PGUP, _______, _______,   KC_P4,   KC_P5,   KC_P6, KC_PENT, KC_PAST, KC_PSLS, RESET,            _______,
-        CAP_LYR, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______, _______,   KC_P1,   KC_P2,   KC_P3, KC_PENT, _______,          _______,          _______,
-        _______,          _______, _______, _______, _______, _______,   KC_P0,   KC_P0, KC_PDOT, KC_NLCK, _______,          _______, _______, _______,
+        CAP_LYR, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______, _______,   KC_P1,   KC_P2,   KC_P3, _______, _______,          _______,          _______,
+        _______,          _______, _______, _______, _______, _______,   _______, KC_P0,   KC_P0, KC_PDOT, KC_NLCK,          _______, _______, _______,
         _______, KC_WINLCK, _______,                          _______,                            _______, TO(0), CTL_T(KC_APP), _______, _______, _______
     ),
 	
