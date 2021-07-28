@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 enum custom_keycodes {
   KC_WINLCK,    //Toggles Win key on and off
-  KC_BSDEL,
+  KC_BSDEL,  //Backspace as Del when holding LSFT
 };
 
 bool _isWinKeyDisabled = false;
@@ -69,7 +69,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 };
 
-typedef enum {
+typedef enum { // quad function tap-dance
     TD_NONE,
     TD_UNKNOWN,
     TD_SINGLE_TAP,
@@ -98,7 +98,7 @@ void ql_reset(qk_tap_dance_state_t *state, void *user_data);
 
 #define CAP_LYR TD(CAPS_LAYR)
 #define TSK_MGR C(S(KC_ESC))
-#define OSK_ALT OSM(MOD_LALT)
+#define OSK_ALT OSM(MOD_LALT) // one shot mods
 #define OSK_SFT OSM(MOD_RSFT)
 #define OSK_CTL OSM(MOD_LCTL)
 
@@ -158,7 +158,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
-
+// side glow as layer indicator, might want to add more keys
 void rgb_matrix_indicators_user(void) {
  led_t led_state = host_keyboard_led_state();
 if (led_state.caps_lock) {
