@@ -26,3 +26,6 @@
     //Always send Escape if Control is pressed
 
 #define TAPPING_TERM 200
+
+#define ONESHOT_TAP_TAGGLE 5
+#define ONESHOT_TIMEOUT 5000
