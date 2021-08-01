@@ -170,6 +170,14 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
     {
       rgb_matrix_set_color(LED_LAYER1[i], 0xaa, 0xcc, 0x11);
     }
+    for (uint8_t i = 0; i < ARRAYSIZE(LED_NUMPAD); i++)
+    {
+      rgb_matrix_set_color(LED_NUMPAD[i], 0xee, 0x00, 0x77);
+    }
+    for (uint8_t i = 0; i < ARRAYSIZE(LED_WASD); i++)
+    {
+      rgb_matrix_set_color(LED_WASD[i], 0xee, 0x33, 0x33);
+    }
     break;
   case _L2:
     for (uint8_t i = 0; i < ARRAYSIZE(LED_LAYER2); i++)
