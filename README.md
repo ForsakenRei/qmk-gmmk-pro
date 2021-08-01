@@ -6,6 +6,8 @@ QMK firmware archive
 - [x] One shot mods and layer
 - [x] RGB Backlight
 - [x] Sideglow Layer Indicator
-
-- [ ] LED layer Layout for layer specific keymaps
+- [x] LED layer Layout for layer specific keymaps
+- [ ] Caps lock and Win lock LED
+- [ ] key over write instead of custom keycode for `shift+backspace`=`delete`
+- [ ] keymap_config.no_gui
 
