@@ -1,7 +1,7 @@
 /* Copyright 2021 Shigure<frozen0416@gmail.com> 
 
-ver. 07/27/2021
-Some functions modified based on jonavin's keymap
+ver. 08/01/2021
+Some functions modified based on jonavin's keymap and Gigahawk's keymap 
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,14 +29,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 enum custom_keycodes
 {
-  KC_WINLCK = SAFE_RANGE, //Toggles Win key on and off
-  KC_BSDEL,  //Backspace as Del when holding LSFT
+  KC_WINLCK = SAFE_RANGE, //Toggles Win key on and off, this custom keycode will be replaced in the future.
 };
 
 bool _isWinKeyDisabled = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  static bool bsdel_mods = false;
     switch (keycode) {
     case KC_WINLCK:
         if (record->event.pressed) {
@@ -47,28 +45,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 process_magic(GUI_ON, record);
             }
         } else  unregister_code16(keycode);
-        break;
-
-    case KC_BSDEL:
-      if (record->event.pressed) {
-        if (get_mods() & MOD_BIT(KC_LSFT)) {
-          unregister_code(KC_LSFT);
-          register_code(KC_DEL);
-          bsdel_mods = true;
-        } else {
-          register_code(KC_BSPC);
-        }
-      } else {
-        if (bsdel_mods) {
-          unregister_code(KC_DEL);
-          register_code(KC_LSFT);
-          bsdel_mods = false;
-        } else {
-          unregister_code(KC_BSPC);
-        }
-      }
-      return false;
-      break;    
+        break; 
     }
     return true;
 };
@@ -127,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // it'll be back to normal when you plug it back in.
     [0] = LAYOUT(
         KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_DEL,           KC_MUTE,
-        KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,         KC_HOME,
+        KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,          KC_HOME,
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS,          KC_PGUP,
         CAP_LYR, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,           KC_PGDN,
         KC_LSFT,          KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          OSK_SFT, KC_UP,   KC_END,
@@ -138,7 +115,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, RGB_TOG, _______, _______, NK_TOGG, KC_MPRV, KC_MNXT, KC_MPLY, KC_MSTP, _______, _______, _______, KC_PSCR, KC_INS,           _______,
           TO(0),   TO(1),   TO(2),   TO(3), _______, _______, _______,   KC_P7,   KC_P8,   KC_P9, _______, KC_PMNS, KC_PPLS, _______,          _______,
         _______, KC_HOME,  KC_UP,   KC_END, KC_PGUP, _______, _______,   KC_P4,   KC_P5,   KC_P6, KC_PENT, KC_PAST, KC_PSLS, RESET,            _______,
-        CAP_LYR, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______, _______,   KC_P1,   KC_P2,   KC_P3, _______, _______,          _______,          _______,
+          TO(0), KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______, _______,   KC_P1,   KC_P2,   KC_P3, _______, _______,          _______,          _______,
         _______,          _______, _______, _______, _______, _______,   _______, KC_P0,   KC_P0, KC_PDOT, KC_NLCK,          _______, _______, _______,
         _______, KC_WINLCK, _______,                          _______,                            _______, TO(0), CTL_T(KC_APP), _______, _______, _______
     ),
@@ -147,68 +124,67 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, RGB_M_P, RGB_M_B, RGB_M_R, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_SLEP,          _______,
           TO(0),   TO(1),   TO(2),   TO(3), _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          RGB_SAI,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,   RESET,          RGB_SAD,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          RGB_HUI,
+          TO(0), _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          RGB_HUI,
         _______,          _______, _______, KC_CALC, _______, _______, _______, TSK_MGR, _______, _______, _______,          _______, RGB_MOD, RGB_HUD,
-        _______, KC_WINLCK, _______,                            _______,                            _______, TO(0), _______, RGB_VAD, RGB_RMOD, RGB_VAI
+        _______, KC_WINLCK, _______,                          _______,                            _______, TO(0),   _______, RGB_VAD, RGB_RMOD, RGB_VAI
     ),
 
-    [3] = LAYOUT(
+    [3] = LAYOUT( //a totally empty layer, maybe make it an special layer for shortcut or strings?
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
           TO(0),   TO(1),   TO(2),   TO(3), _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          _______,
+          TO(0), _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          _______,
         _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
         _______, _______, _______,                            _______,                            _______, TO(0),   _______, _______, _______, _______
     ),
 
 };
 
-// side glow as layer indicator, might want to add more keys
+// different layer will have different backlight, capslock only light up on base layer, winlock will light up in all all layers
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
 {
-  if (IS_HOST_LED_ON(USB_LED_CAPS_LOCK))
+  if (_isWinKeyDisabled)
   {
-    for (uint8_t i = 0; i < ARRAYSIZE(LED_SIDE); i++)
-    {
-      rgb_matrix_set_color(LED_SIDE[i], 0x00, 0x66, 0xbb);
-    }
+    rgb_matrix_set_color(LED_LWIN, RGB_RED); //light up Win key when disabled
   }
-  else
+  switch (get_highest_layer(layer_state))
   {
-    switch (get_highest_layer(layer_state))
+  case _BASE:
+    if (IS_HOST_LED_ON(USB_LED_CAPS_LOCK))
     {
-    case _BASE:
-      //white
+      for (uint8_t i = 0; i < ARRAYSIZE(LED_SIDE); i++)
+      {
+        rgb_matrix_set_color(LED_SIDE[i], 0x00, 0x66, 0xbb);
+      }
+    }
+    else
+    {
       for (uint8_t i = 0; i < ARRAYSIZE(LED_SIDE); i++)
       {
         rgb_matrix_set_color(LED_SIDE[i], 0xFF, 0xFF, 0xFF);
       }
-      break;
-    case _L1:
-      //lime
-      for (uint8_t i = 0; i < ARRAYSIZE(LED_LAYER1); i++)
-      {
-        rgb_matrix_set_color(LED_LAYER1[i], 0xaa, 0xcc, 0x11);
-      }
-      break;
-    case _L2:
-      //orange
-      for (uint8_t i = 0; i < ARRAYSIZE(LED_LAYER2); i++)
-      {
-        rgb_matrix_set_color(LED_LAYER2[i], 0xff, 0x99, 0x00);
-      }
-      break;
-    case _L3:
-    { //magenta
-      for (uint8_t i = 0; i < ARRAYSIZE(LED_LAYER3); i++)
-      {
-        rgb_matrix_set_color(LED_LAYER3[i], 0xee, 0x00, 0x77);
-      }
     }
     break;
-    default:
-      break;
+  case _L1:
+    for (uint8_t i = 0; i < ARRAYSIZE(LED_LAYER1); i++)
+    {
+      rgb_matrix_set_color(LED_LAYER1[i], 0xaa, 0xcc, 0x11);
     }
+    break;
+  case _L2:
+    for (uint8_t i = 0; i < ARRAYSIZE(LED_LAYER2); i++)
+    {
+      rgb_matrix_set_color(LED_LAYER2[i], 0xff, 0x99, 0x00);
+    }
+    break;
+  case _L3:
+    for (uint8_t i = 0; i < ARRAYSIZE(LED_LAYER3); i++)
+    {
+      rgb_matrix_set_color(LED_LAYER3[i], 0xee, 0x00, 0x77);
+    }
+    break;
+  default:
+    break;
   }
 }
 
@@ -333,3 +309,11 @@ void keyboard_post_init_user(void)
     tap_code(KC_NUMLOCK);
   }
 }
+
+const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPACE, KC_DELETE);
+
+// This globally defines all key overrides to be used
+const key_override_t **key_overrides = (const key_override_t *[]){
+    &delete_key_override,
+    NULL // Null terminate the array of overrides!
+};
