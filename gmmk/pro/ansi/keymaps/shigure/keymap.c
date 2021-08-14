@@ -27,9 +27,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _L2 2
 #define _L3 3
 
+void matrix_init_user(void) {
+  rgb_matrix_sethsv(0, 0, 125);
+};
+
 enum custom_keycodes
 {
   KC_WINLCK = SAFE_RANGE, //Toggles Win key on and off, this custom keycode will be replaced in the future.
+  TSK_MGR,
+  RSFT_L3
 };
 
 bool _isWinKeyDisabled = false;
@@ -65,10 +71,10 @@ typedef struct
   td_state_t state;
 } td_tap_t;
 
-enum
+enum custom_tap_dance
 {
   CAPS_LAYR,
-  TSK_MGR,
+  RSFT_LAY3,
 };
 
 // Declare the functions to be used with your tap dance key(s)
@@ -81,9 +87,10 @@ void ql_finished(qk_tap_dance_state_t *state, void *user_data);
 void ql_reset(qk_tap_dance_state_t *state, void *user_data);
 
 #define CAP_LYR TD(CAPS_LAYR)
+#define RSFT_L3 TD(RSFT_LAY3)
 #define TSK_MGR C(S(KC_ESC))
 #define OSK_ALT OSM(MOD_LALT) // one shot mods
-#define OSK_SFT OSM(MOD_RSFT)
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -101,40 +108,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //
     // To put the keyboard in bootloader mode, use FN+backslash. If you accidentally put it into bootloader, you can just unplug the USB cable and
     // it'll be back to normal when you plug it back in.
-    [0] = LAYOUT(
+    [0] = LAYOUT( //base
         KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_DEL,           KC_MUTE,
         KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,          KC_HOME,
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS,          KC_PGUP,
         CAP_LYR, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,           KC_PGDN,
-        KC_LSFT,          KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          OSK_SFT, KC_UP,   KC_END,
+        KC_LSFT,          KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          RSFT_L3, KC_UP,   KC_END,
         KC_LCTL, KC_LGUI, OSK_ALT,                            KC_SPC,                             KC_RALT, TT(2),   KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
     ),
 	
-    [1] = LAYOUT(
-        _______, RGB_TOG, _______, _______, NK_TOGG, KC_MPRV, KC_MNXT, KC_MPLY, KC_MSTP, _______, _______, _______, KC_PSCR, KC_INS,           _______,
-        TO(0),   TO(1),   TO(2),   TO(3)  , _______, _______, _______, KC_P7,   KC_P8,   KC_P9,   _______, KC_PMNS, KC_PPLS, _______,          _______,
-        _______, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______, _______, KC_P4,   KC_P5,   KC_P6,   KC_PENT, KC_PAST, KC_PSLS, RESET,            _______,
+    [1] = LAYOUT( // function and numpad
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_PSCR,          _______,
+        _______, _______, _______, _______, _______, _______, _______, KC_P7,   KC_P8,   KC_P9,   _______, KC_PMNS, KC_PPLS, KC_INS,           _______,
+        _______, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______, _______, KC_P4,   KC_P5,   KC_P6,   KC_PENT, KC_PAST, KC_PSLS, _______,          _______,
         TO(0),   KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______, _______, KC_P1,   KC_P2,   KC_P3,   _______, _______,          _______,          _______,
         _______,          _______, _______, _______, _______, _______, _______, KC_P0,   KC_P0,   KC_PDOT, KC_NLCK,          _______, _______, _______,
-        _______, KC_WINLCK, _______,                          _______,                            _______, TO(0), CTL_T(KC_APP), _______, _______, _______
+        _______, KC_WINLCK, _______,                          _______,                            _______, _______, CTL_T(KC_APP), _______, _______, _______
     ),
 	
-    [2] = LAYOUT(
-        _______, RGB_M_P, RGB_M_B, RGB_M_R, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_SLEP,          _______,
-        TO(0),   TO(1),   TO(2),   TO(3)  , _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          RGB_SAI,
+    [2] = LAYOUT( // rgb and media
+        _______, RGB_TOG, RGB_M_P, _______, NK_TOGG, KC_MPRV, KC_MNXT, KC_MPLY, KC_MSTP, KC_VOLD, KC_VOLU, _______, _______, KC_SLEP,          _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          RGB_SAI,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET,            RGB_SAD,
-        TO(0),   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          RGB_HUI,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          RGB_HUI,
         _______,          _______, _______, KC_CALC, _______, _______, _______, TSK_MGR, _______, _______, _______,          _______, RGB_MOD, RGB_HUD,
         _______, KC_WINLCK, _______,                          _______,                            _______, TO(0),   _______, RGB_VAD, RGB_RMOD, RGB_VAI
     ),
 
-    [3] = LAYOUT( //a totally empty layer, maybe make it an special layer for shortcut or strings?
+    [3] = LAYOUT( //mouse keys
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
-        TO(0),   TO(1),   TO(2),   TO(3)  , _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
-        TO(0),   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          _______,
-        _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
-        _______, _______, _______,                            _______,                            _______, TO(0),   _______, _______, _______, _______
+        _______, _______, KC_MS_U, _______, _______, _______, _______, _______, KC_WH_U, _______, _______, _______, _______, _______,          _______,
+        _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, KC_WH_L, KC_WH_D, KC_WH_R, _______, _______,          KC_BTN1,          _______,
+        _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          TO(0),   _______, _______,
+        _______, KC_WINLCK, _______,                          _______,                            _______, _______, _______, _______, _______, _______
     ),
 
 };
@@ -165,6 +172,7 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
     }
     break;
   case _L1:
+    rgb_matrix_set_color_all(0, 0, 0);
     for (uint8_t i = 0; i < ARRAYSIZE(LED_LAYER1); i++)
     {
       rgb_matrix_set_color(LED_LAYER1[i], 0xaa, 0xcc, 0x11);
@@ -173,18 +181,16 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
     {
       rgb_matrix_set_color(LED_NUMPAD[i], 0xee, 0x00, 0x77);
     }
-    for (uint8_t i = 0; i < ARRAYSIZE(LED_WASD); i++)
-    {
-      rgb_matrix_set_color(LED_WASD[i], 0xee, 0x33, 0x33);
-    }
     break;
   case _L2:
+    rgb_matrix_set_color_all(0, 0, 0);
     for (uint8_t i = 0; i < ARRAYSIZE(LED_LAYER2); i++)
     {
       rgb_matrix_set_color(LED_LAYER2[i], 0xff, 0x99, 0x00);
     }
     break;
   case _L3:
+    rgb_matrix_set_color_all(0, 0, 0);
     for (uint8_t i = 0; i < ARRAYSIZE(LED_LAYER3); i++)
     {
       rgb_matrix_set_color(LED_LAYER3[i], 0xee, 0x00, 0x77);
@@ -307,7 +313,9 @@ void ql_reset(qk_tap_dance_state_t *state, void *user_data)
 
 // Associate our tap dance key with its functionality
 qk_tap_dance_action_t tap_dance_actions[] = {
-    [CAPS_LAYR] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, ql_finished, ql_reset, 275)};
+    [CAPS_LAYR] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, ql_finished, ql_reset, 275),
+    [RSFT_LAY3] = ACTION_TAP_DANCE_LAYER_TOGGLE(KC_RSFT, _L3)
+};
 
 void keyboard_post_init_user(void)
 {
