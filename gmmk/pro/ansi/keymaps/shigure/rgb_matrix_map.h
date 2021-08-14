@@ -119,23 +119,26 @@ enum led_location_map
     LED_DOWN   // 97, Down, k73
 };
 
-const uint8_t LED_LAYER1[] = {LED_F1, LED_F4, LED_F5, LED_F6, LED_F7, LED_F8, LED_F12, LED_INS,
+const uint8_t LED_LAYER1[] = {LED_INS,
                               LED_1, //LED_7, LED_8, LED_9,
-                              LED_Q, /*LED_W,*/ LED_E, LED_R, //LED_U, LED_I, LED_O,
-                              /*LED_A, LED_S, LED_D,*/ LED_F, //LED_J, LED_K, LED_L,
+                              LED_Q, LED_W, LED_E, LED_R, //LED_U, LED_I, LED_O,
+                              LED_A, LED_S, LED_D, LED_F, //LED_J, LED_K, LED_L,
                               //LED_M, LED_COMM, LED_DOT,
                               //LED_MINS, LED_EQL, LED_LBRC, LED_RBRC,
                             LED_FN,
                             LED_L1, LED_L2, LED_L3, LED_L4, LED_L5, LED_L6, LED_L7, LED_L8, LED_R1, LED_R2, LED_R3, LED_R4, LED_R5, LED_R6, LED_R7, LED_R8};
 
-const uint8_t LED_LAYER2[] = {LED_F1, LED_F2, LED_F3, LED_INS,
+const uint8_t LED_LAYER2[] = {LED_F4, LED_F5, LED_F6, LED_F7, LED_F8, LED_F9, LED_F10, LED_INS,
                             LED_2,
                             LED_C, LED_M, LED_FN,
                             LED_LEFT, LED_RIGHT, LED_UP, LED_DOWN,
                             LED_PGUP, LED_PGDN, LED_END, LED_DEL,
                             LED_L1, LED_L2, LED_L3, LED_L4, LED_L5, LED_L6, LED_L7, LED_L8, LED_R1, LED_R2, LED_R3, LED_R4, LED_R5, LED_R6, LED_R7, LED_R8};
 
-const uint8_t LED_LAYER3[] = {LED_3, LED_FN};
+const uint8_t LED_LAYER3[] = {LED_3, 
+                            LED_W, LED_I,
+                            LED_A, LED_S, LED_D, LED_J, LED_K, LED_L, LED_ENT,
+                            LED_FN};
 
 const uint8_t LED_SIDE[] = {LED_L1, LED_L2, LED_L3, LED_L4, LED_L5, LED_L6, LED_L7, LED_L8, LED_R1, LED_R2, LED_R3, LED_R4, LED_R5, LED_R6, LED_R7, LED_R8};
 
@@ -146,8 +149,5 @@ const uint8_t LED_NUMPAD[] = {
         LED_M, LED_COMM, LED_DOT,
 		LED_MINS, LED_EQL, LED_LBRC, LED_RBRC
         };
-
-const uint8_t LED_WASD[] = {
-    LED_W, LED_A, LED_S, LED_D};
 
 #endif
