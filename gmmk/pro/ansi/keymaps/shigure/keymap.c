@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _L3 3
 
 void matrix_init_user(void) {
-  rgb_matrix_sethsv(0, 0, 150);
+  rgb_matrix_sethsv(0, 0, 200);
 };
 
 enum custom_keycodes
@@ -313,7 +313,7 @@ void ql_reset(qk_tap_dance_state_t *state, void *user_data)
 
 // Associate our tap dance key with its functionality
 qk_tap_dance_action_t tap_dance_actions[] = {
-    [CAPS_LAYR] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, ql_finished, ql_reset, 275),
+    [CAPS_LAYR] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, ql_finished, ql_reset, 200),
     [RSFT_LAY3] = ACTION_TAP_DANCE_LAYER_TOGGLE(KC_RSFT, _L3)
 };
 
