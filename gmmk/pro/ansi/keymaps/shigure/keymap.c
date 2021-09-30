@@ -76,22 +76,24 @@ enum custom_tap_dance
 {
   CAPS_LAYR,
   RSFT_LAY3,
+  KCFN_L2,
 };
-
-// Declare the functions to be used with your tap dance key(s)
 
 // Function associated with all tap dances
 td_state_t cur_dance(qk_tap_dance_state_t *state);
 
 // Functions associated with individual tap dances
-void ql_finished(qk_tap_dance_state_t *state, void *user_data);
-void ql_reset(qk_tap_dance_state_t *state, void *user_data);
+void caps_finished(qk_tap_dance_state_t *state, void *user_data);
+void caps_reset(qk_tap_dance_state_t *state, void *user_data);
+void fn_finished(qk_tap_dance_state_t *state, void *user_data);
+void fn_reset(qk_tap_dance_state_t *state, void *user_data);
 
 #define CAP_L1  TD(CAPS_LAYR)
 #define RSFT_L3 TD(RSFT_LAY3)
+#define FN_L2 TD(KCFN_L2)
 #define TSK_MGR C(S(KC_ESC))
-#define OSK_ALT OSM(MOD_LALT) // one shot mods
-#define CTL_APP CTL_T(KC_APP)
+#define OSM_ALT OSM(MOD_LALT) // one shot mods
+#define OSM_CTL OSM(MOD_LCTL)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -116,16 +118,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS,          KC_PGUP,
         CAP_L1,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,           KC_PGDN,
         KC_LSFT,          KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          RSFT_L3, KC_UP,   KC_END,
-        KC_LCTL, KC_LGUI, KC_LALT,                            KC_SPC,                             KC_RALT, TT(2),   KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
+        KC_LCTL, KC_LGUI, KC_LALT,                            KC_SPC,                             KC_RALT, FN_L2,   KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
     ),
 	
     [1] = LAYOUT( // function and numpad
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
-        _______, _______, _______, _______, _______, _______, _______, KC_P7,   KC_P8,   KC_P9,   _______, KC_PMNS, KC_PPLS, _______,          KC_INS,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_PMNS, KC_PPLS, _______,          KC_INS,
         _______, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______, _______, KC_P4,   KC_P5,   KC_P6,   KC_PENT, KC_PAST, KC_PSLS, _______,          KC_PSCR,
         _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______, _______, KC_P1,   KC_P2,   KC_P3,   _______, _______,          _______,          KC_SLCK,
         _______,          _______, _______, _______, _______, _______, _______, KC_P0,   KC_P0,   KC_PDOT, KC_NLCK,          _______, _______, KC_APP,
-        _______, KC_WINLCK, _______,                          KC_BSPC,                            OSK_ALT, _______, CTL_APP, _______, _______, _______
+        OSM_CTL, KC_WINLCK, OSM_ALT,                          KC_BSPC,                            _______, _______, _______, _______, _______, _______
     ),
 	
     [2] = LAYOUT( // rgb and media
@@ -138,7 +140,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [3] = LAYOUT( //mouse keys
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LOCK,          _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
         _______, _______, KC_MS_U, _______, _______, _______, _______, _______, KC_WH_U, _______, _______, _______, _______, _______,          _______,
         _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, KC_WH_L, KC_WH_D, KC_WH_R, _______, _______,          KC_BTN1,          _______,
@@ -269,15 +271,23 @@ td_state_t cur_dance(qk_tap_dance_state_t *state)
 }
 
 // Initialize tap structure associated with example tap dance key
-static td_tap_t ql_tap_state = {
+static td_tap_t caps_tap_state = {
+    .is_press_action = true,
+    .state = TD_NONE};
+
+static td_tap_t fn_tap_state = {
+    .is_press_action = true,
+    .state = TD_NONE};
+
+static td_tap_t sft_tap_state = {
     .is_press_action = true,
     .state = TD_NONE};
 
 // Functions that control what our tap dance key does
-void ql_finished(qk_tap_dance_state_t *state, void *user_data)
+void caps_finished(qk_tap_dance_state_t *state, void *user_data)
 {
-  ql_tap_state.state = cur_dance(state);
-  switch (ql_tap_state.state)
+  caps_tap_state.state = cur_dance(state);
+  switch (caps_tap_state.state)
   {
   case TD_SINGLE_TAP:
     tap_code(KC_CAPS);
@@ -303,20 +313,98 @@ void ql_finished(qk_tap_dance_state_t *state, void *user_data)
   }
 }
 
-void ql_reset(qk_tap_dance_state_t *state, void *user_data)
+void caps_reset(qk_tap_dance_state_t *state, void *user_data)
 {
   // If the key was held down and now is released then switch off the layer
-  if (ql_tap_state.state == TD_SINGLE_HOLD)
+  if (caps_tap_state.state == TD_SINGLE_HOLD)
   {
     layer_off(_L1);
   }
-  ql_tap_state.state = TD_NONE;
+  caps_tap_state.state = TD_NONE;
 }
 
-// Associate our tap dance key with its functionality
+//tap dance for Fn
+void fn_finished(qk_tap_dance_state_t *state, void*user_data)
+{
+  fn_tap_state.state = cur_dance(state);
+  switch (fn_tap_state.state)
+  {
+    case TD_SINGLE_TAP:
+      set_oneshot_layer(_L2, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED);
+      break;
+    case TD_SINGLE_HOLD:
+      layer_on(_L2);
+      break;
+    case TD_DOUBLE_TAP:
+      if (layer_state_is(_L2))
+    {
+      layer_off(_L2);
+    }
+    else
+    {
+      layer_on(_L2);
+    }
+      break;
+    default:
+      break;
+  }
+}
+
+void fn_reset(qk_tap_dance_state_t *state, void*user_data)
+{
+  switch (fn_tap_state.state) 
+  {
+    case TD_SINGLE_HOLD:
+      layer_off(_L2);
+      break;
+    default:
+      break;
+  }
+}
+
+void sft_finished(qk_tap_dance_state_t *state, void*user_data)
+{
+  sft_tap_state.state = cur_dance(state);
+  switch (sft_tap_state.state)
+  {
+    case TD_SINGLE_TAP:
+      set_oneshot_layer(_L3, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED);
+      break;
+    case TD_SINGLE_HOLD:
+      register_code(KC_RSFT);
+      break;
+    case TD_DOUBLE_TAP:
+      if (layer_state_is(_L3))
+    {
+      layer_off(_L3);
+    }
+    else
+    {
+      layer_on(_L3);
+    }
+      break;
+    default:
+      break;
+  }
+}
+
+void sft_reset(qk_tap_dance_state_t *state, void*user_data)
+{
+  switch (sft_tap_state.state) 
+  {
+    case TD_SINGLE_HOLD:
+      unregister_code(KC_RSFT);
+      break;
+    default:
+      break;
+  }
+}
+
+// Associate tap dance key with its functionality
 qk_tap_dance_action_t tap_dance_actions[] = {
-    [CAPS_LAYR] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, ql_finished, ql_reset, 200),
-    [RSFT_LAY3] = ACTION_TAP_DANCE_LAYER_TOGGLE(KC_RSFT, _L3)
+    [CAPS_LAYR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, caps_finished, caps_reset),
+    [KCFN_L2] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, fn_finished, fn_reset),
+    [RSFT_LAY3] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, sft_finished, sft_reset)
 };
 
 void keyboard_post_init_user(void)
