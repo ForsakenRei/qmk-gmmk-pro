@@ -36,7 +36,9 @@ enum custom_keycodes
   KC_WINLCK = SAFE_RANGE, //Toggles Win key on and off, this custom keycode will be replaced in the future.
   TSK_MGR,
   RSFT_L3,
-  CTL_APP
+  CTL_APP,
+  USRNM,
+  GMAIL
 };
 
 bool _isWinKeyDisabled = false;
@@ -53,6 +55,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
         } else  unregister_code16(keycode);
         break; 
+    case USRNM:
+        if (record->event.pressed) {
+            SEND_STRING("ForsakenRei");
+        } else {
+        }
+        break;
+    case GMAIL:
+        if (record->event.pressed) {
+            SEND_STRING("frozen0416@gmail.com");
+        } else {
+        }
+        break;
     }
     return true;
 };
@@ -141,8 +155,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [3] = LAYOUT( //mouse keys
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LOCK,          _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
-        _______, _______, KC_MS_U, _______, _______, _______, _______, _______, KC_WH_U, _______, _______, _______, _______, _______,          _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          GMAIL,
+        _______, _______, KC_MS_U, _______, _______, _______, _______, _______, KC_WH_U, _______, _______, _______, _______, _______,          USRNM,
         _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, KC_WH_L, KC_WH_D, KC_WH_R, _______, _______,          KC_BTN1,          _______,
         _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
         _______, KC_WINLCK, _______,                          _______,                            _______, _______, _______, _______, _______, _______
@@ -203,7 +217,7 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
   default:
     break;
   }
-}
+};
 
 #ifdef ENCODER_ENABLE // Encoder Functionality
 bool encoder_update_user(uint8_t index, bool clockwise)
@@ -268,7 +282,7 @@ td_state_t cur_dance(qk_tap_dance_state_t *state)
     return TD_DOUBLE_TAP;
   else
     return TD_UNKNOWN;
-}
+};
 
 // Initialize tap structure associated with example tap dance key
 static td_tap_t caps_tap_state = {
@@ -311,7 +325,7 @@ void caps_finished(qk_tap_dance_state_t *state, void *user_data)
   default:
     break;
   }
-}
+};
 
 void caps_reset(qk_tap_dance_state_t *state, void *user_data)
 {
@@ -321,7 +335,7 @@ void caps_reset(qk_tap_dance_state_t *state, void *user_data)
     layer_off(_L1);
   }
   caps_tap_state.state = TD_NONE;
-}
+};
 
 //tap dance for Fn
 void fn_finished(qk_tap_dance_state_t *state, void*user_data)
@@ -348,7 +362,7 @@ void fn_finished(qk_tap_dance_state_t *state, void*user_data)
     default:
       break;
   }
-}
+};
 
 void fn_reset(qk_tap_dance_state_t *state, void*user_data)
 {
@@ -360,7 +374,7 @@ void fn_reset(qk_tap_dance_state_t *state, void*user_data)
     default:
       break;
   }
-}
+};
 
 void sft_finished(qk_tap_dance_state_t *state, void*user_data)
 {
@@ -368,6 +382,7 @@ void sft_finished(qk_tap_dance_state_t *state, void*user_data)
   switch (sft_tap_state.state)
   {
     case TD_SINGLE_TAP:
+      // register_code(KC_RSFT);
       set_oneshot_layer(_L3, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED);
       break;
     case TD_SINGLE_HOLD:
@@ -386,19 +401,21 @@ void sft_finished(qk_tap_dance_state_t *state, void*user_data)
     default:
       break;
   }
-}
+};
 
 void sft_reset(qk_tap_dance_state_t *state, void*user_data)
 {
   switch (sft_tap_state.state) 
   {
+    // case TD_SINGLE_TAP:
+    //   unregister_code(KC_RSFT);
     case TD_SINGLE_HOLD:
       unregister_code(KC_RSFT);
       break;
     default:
       break;
   }
-}
+};
 
 // Associate tap dance key with its functionality
 qk_tap_dance_action_t tap_dance_actions[] = {
@@ -413,7 +430,7 @@ void keyboard_post_init_user(void)
   { // turn on Num lock by defautl
     tap_code(KC_NUMLOCK);
   }
-}
+};
 
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPACE, KC_DELETE);
 
