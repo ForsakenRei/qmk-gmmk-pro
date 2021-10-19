@@ -1,6 +1,6 @@
 /* Copyright 2021 Shigure
 
-ver. 08/01/2021
+ver. 10/10/2021
 Some functions modified based on jonavin's keymap and Gigahawk's keymap 
 
 This program is free software: you can redistribute it and/or modify
@@ -145,7 +145,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 	
     [2] = LAYOUT( // rgb and media
-        _______, RGB_TOG, RGB_M_P, _______, NK_TOGG, KC_MPRV, KC_MNXT, KC_MPLY, KC_MSTP, KC_VOLD, KC_VOLU, _______, _______, KC_SLEP,          _______,
+        _______, _______, _______, _______, NK_TOGG, KC_MPRV, KC_MNXT, KC_MPLY, KC_MSTP, KC_VOLD, KC_VOLU, RGB_TOG, RGB_M_P, KC_SLEP,          _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          RGB_SAI,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET,            RGB_SAD,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          RGB_HUI,
@@ -231,7 +231,7 @@ bool encoder_update_user(uint8_t index, bool clockwise)
       register_mods(MOD_BIT(KC_LCTL));
     }
     else if (keyboard_report->mods & MOD_BIT(KC_LSFT))
-    { // If you are holding L shift, scroll left and right
+    { // if you are holding L shift, scroll left and right
       tap_code16(KC_WH_R);
     }
     else if (keyboard_report->mods & MOD_BIT(KC_LALT))
@@ -344,7 +344,7 @@ void fn_finished(qk_tap_dance_state_t *state, void*user_data)
   switch (fn_tap_state.state)
   {
     case TD_SINGLE_TAP:
-      set_oneshot_layer(_L2, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED);
+      set_oneshot_layer(_L2, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED); // currently oneshot layer didn't work well with media keys on L2
       break;
     case TD_SINGLE_HOLD:
       layer_on(_L2);
@@ -383,7 +383,7 @@ void sft_finished(qk_tap_dance_state_t *state, void*user_data)
   {
     case TD_SINGLE_TAP:
       // register_code(KC_RSFT);
-      set_oneshot_layer(_L3, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED);
+      set_oneshot_layer(_L3, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED); // maybe keep sigle tap as KC_RSFT
       break;
     case TD_SINGLE_HOLD:
       register_code(KC_RSFT);
