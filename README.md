@@ -9,5 +9,5 @@ QMK firmware archive
 - [x] Layer Backlight
 - [x] Capslock and Winlock LED
 - [x] Key Override for `shift+backspace`=`delete`
-- [ ] keymap_config.no_gui
-
+- [ ] `GUI_TOG` instead of function.
+- [ ] fix oneshot layer
