@@ -33,7 +33,7 @@ void matrix_init_user(void) {
 
 enum custom_keycodes
 {
-  KC_WINLCK = SAFE_RANGE, //Toggles Win key on and off, this custom keycode will be replaced in the future.
+  KC_WLCK = SAFE_RANGE, //Toggles Win key on and off, this custom keycode will be replaced in the future.
   TSK_MGR,
   RSFT_L3,
   CTL_APP,
@@ -45,7 +45,7 @@ bool _isWinKeyDisabled = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-    case KC_WINLCK:
+    case KC_WLCK:
         if (record->event.pressed) {
             _isWinKeyDisabled = !_isWinKeyDisabled; //toggle status
             if(_isWinKeyDisabled) {
@@ -104,7 +104,7 @@ void fn_reset(qk_tap_dance_state_t *state, void *user_data);
 
 #define CAP_L1  TD(CAPS_LAYR)
 #define RSFT_L3 TD(RSFT_LAY3)
-#define FN_L2 TD(KCFN_L2)
+#define FN_L2   TD(KCFN_L2)
 #define TSK_MGR C(S(KC_ESC))
 #define OSM_ALT OSM(MOD_LALT) // one shot mods
 #define OSM_CTL OSM(MOD_LCTL)
@@ -141,7 +141,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______, _______, KC_P4,   KC_P5,   KC_P6,   KC_PENT, KC_PAST, KC_PSLS, _______,          KC_PSCR,
         _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______, _______, KC_P1,   KC_P2,   KC_P3,   _______, _______,          _______,          KC_SLCK,
         _______,          _______, _______, _______, _______, _______, _______, KC_P0,   KC_P0,   KC_PDOT, KC_NLCK,          _______, _______, KC_APP,
-        OSM_CTL, KC_WINLCK, OSM_ALT,                          KC_BSPC,                            _______, _______, _______, _______, _______, _______
+        OSM_CTL, _______, OSM_ALT,                            KC_BSPC,                            _______, _______, _______, _______, _______, _______
     ),
 	
     [2] = LAYOUT( // rgb and media
@@ -150,7 +150,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET,            RGB_SAD,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          RGB_HUI,
         _______,          _______, _______, KC_CALC, _______, _______, _______, TSK_MGR, _______, _______, _______,          _______, RGB_MOD, RGB_HUD,
-        _______, KC_WINLCK, _______,                          _______,                            _______, _______, _______, RGB_VAD, RGB_RMOD, RGB_VAI
+        _______, KC_WLCK, _______,                            _______,                            _______, _______, _______, RGB_VAD, RGB_RMOD, RGB_VAI
     ),
 
     [3] = LAYOUT( //mouse keys
@@ -159,7 +159,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, KC_MS_U, _______, _______, _______, _______, _______, KC_WH_U, _______, _______, _______, _______, _______,          USRNM,
         _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, KC_WH_L, KC_WH_D, KC_WH_R, _______, _______,          KC_BTN1,          _______,
         _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
-        _______, KC_WINLCK, _______,                          _______,                            _______, _______, _______, _______, _______, _______
+        _______, KC_WLCK, _______,                          _______,                            _______, _______, _______, _______, _______, _______
     ),
 
 };
