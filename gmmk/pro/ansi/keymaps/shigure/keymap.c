@@ -33,8 +33,7 @@ void matrix_init_user(void) {
 
 enum custom_keycodes
 {
-  KC_WLCK = SAFE_RANGE, //Toggles Win key on and off, this custom keycode will be replaced in the future.
-  TSK_MGR,
+  TSK_MGR = SAFE_RANGE,
   RSFT_L3,
   CTL_APP,
   USRNM,
@@ -45,16 +44,6 @@ bool _isWinKeyDisabled = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-    case KC_WLCK:
-        if (record->event.pressed) {
-            _isWinKeyDisabled = !_isWinKeyDisabled; //toggle status
-            if(_isWinKeyDisabled) {
-                process_magic(GUI_OFF, record);
-            } else {
-                process_magic(GUI_ON, record);
-            }
-        } else  unregister_code16(keycode);
-        break; 
     case USRNM:
         if (record->event.pressed) {
             SEND_STRING("ForsakenRei");
@@ -150,7 +139,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET,            RGB_SAD,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          RGB_HUI,
         _______,          _______, _______, KC_CALC, _______, _______, _______, TSK_MGR, _______, _______, _______,          _______, RGB_MOD, RGB_HUD,
-        _______, KC_WLCK, _______,                            _______,                            _______, _______, _______, RGB_VAD, RGB_RMOD, RGB_VAI
+        _______, GUI_TOG, _______,                            _______,                            _______, _______, _______, RGB_VAD, RGB_RMOD, RGB_VAI
     ),
 
     [3] = LAYOUT( //mouse keys
@@ -159,7 +148,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, KC_MS_U, _______, _______, _______, _______, _______, KC_WH_U, _______, _______, _______, _______, _______,          USRNM,
         _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, KC_WH_L, KC_WH_D, KC_WH_R, _______, _______,          KC_BTN1,          _______,
         _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
-        _______, KC_WLCK, _______,                          _______,                            _______, _______, _______, _______, _______, _______
+        _______, _______, _______,                          _______,                            _______, _______, _______, _______, _______, _______
     ),
 
 };
@@ -167,7 +156,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // different layer will have different backlight, capslock only light up on base layer, winlock will light up in all all layers
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
 {
-  if (_isWinKeyDisabled)
+  if (keymap_config.no_gui)
   {
     rgb_matrix_set_color(LED_LWIN, RGB_RED); //light up Win key when disabled
   }
