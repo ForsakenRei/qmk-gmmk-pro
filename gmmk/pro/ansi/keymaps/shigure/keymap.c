@@ -130,7 +130,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______, _______, KC_P4,   KC_P5,   KC_P6,   KC_PENT, KC_PAST, KC_PSLS, _______,          KC_PSCR,
         _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______, _______, KC_P1,   KC_P2,   KC_P3,   _______, _______,          _______,          KC_SLCK,
         _______,          _______, _______, _______, _______, _______, _______, KC_P0,   KC_P0,   KC_PDOT, KC_NLCK,          _______, _______, KC_APP,
-        OSM_CTL, _______, OSM_ALT,                            KC_BSPC,                            _______, _______, _______, _______, _______, _______
+        OSM_CTL, _______, OSM_ALT,                            _______,                            _______, _______, _______, _______, _______, _______
     ),
 	
     [2] = LAYOUT( // rgb and media
@@ -143,12 +143,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [3] = LAYOUT( //mouse keys
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LOCK,          _______,
+        _______, KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F17,  KC_F18,  KC_F19,  KC_F20,  KC_F21,  KC_F22,  KC_F23,  KC_F24,  KC_LOCK,          _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          GMAIL,
         _______, _______, KC_MS_U, _______, _______, _______, _______, _______, KC_WH_U, _______, _______, _______, _______, _______,          USRNM,
         _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, KC_WH_L, KC_WH_D, KC_WH_R, _______, _______,          KC_BTN1,          _______,
         _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
-        _______, _______, _______,                          _______,                            _______, _______, _______, _______, _______, _______
+        _______, _______, _______,                            _______,                            _______, _______, _______, _______, _______, _______
     ),
 
 };
@@ -212,47 +212,13 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
 bool encoder_update_user(uint8_t index, bool clockwise)
 {
   if (clockwise)
-  {
-    if (keyboard_report->mods & MOD_BIT(KC_LCTL))
-    { // if holding Left Ctrl, scroll up and down
-      unregister_mods(MOD_BIT(KC_LCTL));
-      register_code(KC_PGDN);
-      register_mods(MOD_BIT(KC_LCTL));
-    }
-    else if (keyboard_report->mods & MOD_BIT(KC_LSFT))
-    { // if you are holding L shift, scroll left and right
-      tap_code16(KC_WH_R);
-    }
-    else if (keyboard_report->mods & MOD_BIT(KC_LALT))
-    { // if holding Left Alt, change media next track
-      tap_code(KC_MEDIA_NEXT_TRACK);
-    }
-    else
     {
-      tap_code(KC_VOLU); // Otherwise it just changes volume
-    }
-  }
-  else
-  {
-    if (keyboard_report->mods & MOD_BIT(KC_LCTL))
-    {
-      unregister_mods(MOD_BIT(KC_LCTL));
-      register_code(KC_PGUP);
-      register_mods(MOD_BIT(KC_LCTL));
-    }
-    else if (keyboard_report->mods & MOD_BIT(KC_LSFT))
-    {
-      tap_code16(KC_WH_L);
-    }
-    else if (keyboard_report->mods & MOD_BIT(KC_LALT))
-    {
-      tap_code(KC_MEDIA_PREV_TRACK);
+      tap_code(KC_VOLU);
     }
     else
     {
       tap_code(KC_VOLD);
     }
-  }
   return true;
 }
 #endif
@@ -422,9 +388,17 @@ void keyboard_post_init_user(void)
 };
 
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPACE, KC_DELETE);
+const key_override_t page_up_override = ko_make_basic(MOD_MASK_CTRL, KC_VOLU, KC_PGUP);
+const key_override_t page_down_override = ko_make_basic(MOD_MASK_CTRL, KC_VOLD, KC_PGDN);
+const key_override_t scroll_right_override = ko_make_basic(MOD_MASK_ALT, KC_VOLU, KC_WH_R);
+const key_override_t scroll_left_override = ko_make_basic(MOD_MASK_ALT, KC_VOLD, KC_WH_L);
 
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
     &delete_key_override,
+    &page_up_override,
+    &page_down_override,
+    &scroll_right_override,
+    &scroll_left_override
     NULL // Null terminate the array of overrides!
 };
