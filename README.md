@@ -10,4 +10,4 @@ QMK firmware archive
 - [x] Capslock and Winlock LED
 - [x] Key Override for `shift+backspace`=`delete`
 - [x] `GUI_TOG` instead of function for Win Lock
-- [ ] fix oneshot layer with media key
+- [x] fix oneshot layer with media key
