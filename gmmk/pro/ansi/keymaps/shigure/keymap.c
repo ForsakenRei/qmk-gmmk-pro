@@ -95,6 +95,7 @@ void fn_reset(qk_tap_dance_state_t *state, void *user_data);
 #define RSFT_L3 TD(RSFT_LAY3)
 #define FN_L2   TD(KCFN_L2)
 #define TSK_MGR C(S(KC_ESC))
+#define SEARCH  G(S(KC_N))
 #define OSM_ALT OSM(MOD_LALT) // one shot mods
 #define OSM_CTL OSM(MOD_LCTL)
 
@@ -129,8 +130,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_PMNS, KC_PPLS, _______,          KC_INS,
         _______, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______, _______, KC_P4,   KC_P5,   KC_P6,   KC_PENT, KC_PAST, KC_PSLS, _______,          KC_PSCR,
         _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, _______, _______, KC_P1,   KC_P2,   KC_P3,   _______, _______,          _______,          KC_SLCK,
-        _______,          _______, _______, _______, _______, _______, _______, KC_P0,   KC_P0,   KC_PDOT, KC_NLCK,          _______, _______, KC_APP,
-        OSM_CTL, _______, OSM_ALT,                            _______,                            _______, _______, _______, _______, _______, _______
+        _______,          _______, _______, _______, _______, _______, SEARCH,  KC_P0,   KC_P0,   KC_PDOT, KC_NLCK,          _______, _______, KC_APP,
+        OSM_CTL, _______, OSM_ALT,                            KC_DEL,                             _______, _______, _______, _______, _______, _______
     ),
 	
     [2] = LAYOUT( // rgb and media
@@ -148,7 +149,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, KC_MS_U, _______, _______, _______, _______, _______, KC_WH_U, _______, _______, _______, _______, _______,          USRNM,
         _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, KC_WH_L, KC_WH_D, KC_WH_R, _______, _______,          KC_BTN1,          _______,
         _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
-        _______, _______, _______,                          _______,                            _______, _______, _______, _______, _______, _______
+        _______, _______, _______,                            _______,                            _______, _______, _______, _______, _______, _______
     ),
 
 };
@@ -333,7 +334,7 @@ void fn_finished(qk_tap_dance_state_t *state, void*user_data)
   switch (fn_tap_state.state)
   {
     case TD_SINGLE_TAP:
-      set_oneshot_layer(_L2, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED); // currently oneshot layer didn't work well with media keys on L2
+      set_oneshot_layer(_L2, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED);
       break;
     case TD_SINGLE_HOLD:
       layer_on(_L2);
@@ -372,7 +373,7 @@ void sft_finished(qk_tap_dance_state_t *state, void*user_data)
   {
     case TD_SINGLE_TAP:
       // register_code(KC_RSFT);
-      set_oneshot_layer(_L3, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED); // maybe keep sigle tap as KC_RSFT
+      set_oneshot_layer(_L3, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED);
       break;
     case TD_SINGLE_HOLD:
       register_code(KC_RSFT);
