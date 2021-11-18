@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _L3 3
 
 void matrix_init_user(void) {
-  rgb_matrix_sethsv(0, 0, 200);
+  rgb_matrix_sethsv(0, 0, 200); // set default RGB color
 };
 
 enum custom_keycodes
@@ -90,12 +90,15 @@ void caps_finished(qk_tap_dance_state_t *state, void *user_data);
 void caps_reset(qk_tap_dance_state_t *state, void *user_data);
 void fn_finished(qk_tap_dance_state_t *state, void *user_data);
 void fn_reset(qk_tap_dance_state_t *state, void *user_data);
+void sft_finished(qk_tap_dance_state_t *state, void *user_data);
+void sft_reset(qk_tap_dance_state_t *state, void *user_data);
 
 #define CAP_L1  TD(CAPS_LAYR)
 #define RSFT_L3 TD(RSFT_LAY3)
 #define FN_L2   TD(KCFN_L2)
 #define TSK_MGR C(S(KC_ESC))
-#define SEARCH  G(S(KC_N))
+#define SEARCH  G(S(KC_N)) // used for Everything search new window shortcut
+#define DC_MUTE C(S(KC_M)) // used for mute/unmute
 #define OSM_ALT OSM(MOD_LALT) // one shot mods
 #define OSM_CTL OSM(MOD_LCTL)
 
@@ -148,8 +151,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          GMAIL,
         _______, _______, KC_MS_U, _______, _______, _______, _______, _______, KC_WH_U, _______, _______, _______, _______, _______,          USRNM,
         _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, KC_WH_L, KC_WH_D, KC_WH_R, _______, _______,          KC_BTN1,          _______,
-        _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
-        _______, _______, _______,                            _______,                            _______, _______, _______, _______, _______, _______
+        _______,          _______, _______, _______, _______, _______, _______, DC_MUTE, _______, _______, _______,          _______, _______, _______,
+        _______, _______, _______,                            _______,                            _______, TO(0),   _______, _______, _______, _______
     ),
 
 };
