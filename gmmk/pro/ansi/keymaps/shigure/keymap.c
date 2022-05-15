@@ -27,8 +27,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _L2 2
 #define _L3 3
 
-void matrix_init_user(void) {
-  rgb_matrix_sethsv(0, 0, 200); // set default RGB color
+void keyboard_post_init_keymap(void) {
+  #ifdef RGB_MATRIX_ENABLE
+       rgb_matrix_set_color_all(0xFF, 0xFF, 0xFF); // set default RGB color
+  #endif
+  
 };
 
 enum custom_keycodes
@@ -157,6 +160,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
+#ifdef RGB_MATRIX_ENABLE
 // different layer will have different backlight, capslock only light up on base layer, winlock will light up in all all layers
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
 {
@@ -211,6 +215,7 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
     break;
   }
 };
+#endif
 
 #ifdef ENCODER_ENABLE // Encoder Functionality
 bool encoder_update_user(uint8_t index, bool clockwise)
@@ -220,7 +225,7 @@ bool encoder_update_user(uint8_t index, bool clockwise)
     if (keyboard_report->mods & MOD_BIT(KC_LCTL))
     { // if holding Left Ctrl, scroll up and down
       unregister_mods(MOD_BIT(KC_LCTL));
-      register_code(KC_PGDN);
+      tap_code(KC_PGDN);
       register_mods(MOD_BIT(KC_LCTL));
     }
     else if (keyboard_report->mods & MOD_BIT(KC_LSFT))
@@ -241,7 +246,7 @@ bool encoder_update_user(uint8_t index, bool clockwise)
     if (keyboard_report->mods & MOD_BIT(KC_LCTL))
     {
       unregister_mods(MOD_BIT(KC_LCTL));
-      register_code(KC_PGUP);
+      tap_code(KC_PGUP);
       register_mods(MOD_BIT(KC_LCTL));
     }
     else if (keyboard_report->mods & MOD_BIT(KC_LSFT))
@@ -257,7 +262,7 @@ bool encoder_update_user(uint8_t index, bool clockwise)
       tap_code(KC_VOLD);
     }
   }
-  return true;
+  return false;
 }
 #endif
 
@@ -369,14 +374,15 @@ void fn_reset(qk_tap_dance_state_t *state, void*user_data)
   }
 };
 
+//tap dance for right shift
 void sft_finished(qk_tap_dance_state_t *state, void*user_data)
 {
   sft_tap_state.state = cur_dance(state);
   switch (sft_tap_state.state)
   {
     case TD_SINGLE_TAP:
-      // register_code(KC_RSFT);
-      set_oneshot_layer(_L3, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED);
+      tap_code(KC_RSFT);
+      // set_oneshot_layer(_L3, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED);
       break;
     case TD_SINGLE_HOLD:
       register_code(KC_RSFT);
@@ -400,8 +406,9 @@ void sft_reset(qk_tap_dance_state_t *state, void*user_data)
 {
   switch (sft_tap_state.state) 
   {
-    // case TD_SINGLE_TAP:
-    //   unregister_code(KC_RSFT);
+    case TD_SINGLE_TAP:
+      unregister_code(KC_RSFT);
+      break;
     case TD_SINGLE_HOLD:
       unregister_code(KC_RSFT);
       break;
