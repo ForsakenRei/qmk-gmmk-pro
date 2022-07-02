@@ -135,7 +135,7 @@ const uint8_t LED_LAYER2[] = {
                             LED_L1, LED_L2, LED_L3, LED_L4, LED_L5, LED_L6, LED_L7, LED_L8, LED_R1, LED_R2, LED_R3, LED_R4, LED_R5, LED_R6, LED_R7, LED_R8};
 
 const uint8_t LED_LAYER3[] = {
-                            LED_INS, LED_DEL, LED_PGUP,
+                            LED_INS,
                             LED_W, LED_I,
                             LED_A, LED_S, LED_D, LED_J, LED_K, LED_L, LED_ENT,
                             LED_FN,

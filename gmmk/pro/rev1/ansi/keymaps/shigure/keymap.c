@@ -27,11 +27,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _L2 2
 #define _L3 3
 
-void keyboard_post_init_keymap(void) {
+void keyboard_post_init_user(void) {
   #ifdef RGB_MATRIX_ENABLE
-       rgb_matrix_set_color_all(0xFF, 0xFF, 0xFF); // set default RGB color
-  #endif
-  
+       rgb_matrix_sethsv(0, 0, 0); // set default RGB color
+  #endif 
+  if (IS_HOST_LED_ON(USB_LED_NUM_LOCK))
+  { // turn on Num lock by defautl
+    tap_code(KC_NUMLOCK);
+  }
 };
 
 enum custom_keycodes
@@ -39,29 +42,9 @@ enum custom_keycodes
   TSK_MGR = SAFE_RANGE,
   RSFT_L3,
   CTL_APP,
-  USRNM,
-  GMAIL
 };
 
 bool _isWinKeyDisabled = false;
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-    case USRNM:
-        if (record->event.pressed) {
-            SEND_STRING("ForsakenRei");
-        } else {
-        }
-        break;
-    case GMAIL:
-        if (record->event.pressed) {
-            SEND_STRING("frozen0416@gmail.com");
-        } else {
-        }
-        break;
-    }
-    return true;
-};
 
 typedef enum
 { // quad function tap-dance
@@ -151,10 +134,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [3] = LAYOUT( //mouse keys
         _______, KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F17,  KC_F18,  KC_F19,  KC_F20,  KC_F21,  KC_F22,  KC_F23,  KC_F24,  KC_LOCK,          _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          GMAIL,
-        _______, _______, KC_MS_U, _______, _______, _______, _______, _______, KC_WH_U, _______, _______, _______, _______, _______,          USRNM,
-        _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, KC_WH_L, KC_WH_D, KC_WH_R, _______, _______,          KC_BTN1,          _______,
-        _______,          _______, _______, _______, _______, _______, _______, DC_MUTE, _______, _______, _______,          _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          KC_F13,
+        _______, _______, KC_MS_U, _______, _______, _______, _______, _______, KC_WH_U, _______, _______, _______, _______, _______,          KC_F14,
+        _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, KC_WH_L, KC_WH_D, KC_WH_R, _______, _______,          KC_BTN1,          KC_F16,
+        _______,          _______, _______, _______, _______, _______, _______, DC_MUTE, _______, _______, _______,          _______, _______, KC_LGUI,
         _______, _______, _______,                            _______,                            _______, TO(0),   _______, _______, _______, _______
     ),
 
@@ -422,14 +405,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [CAPS_LAYR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, caps_finished, caps_reset),
     [KCFN_L2] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, fn_finished, fn_reset),
     [RSFT_LAY3] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, sft_finished, sft_reset)
-};
-
-void keyboard_post_init_user(void)
-{
-  if (IS_HOST_LED_ON(USB_LED_NUM_LOCK))
-  { // turn on Num lock by defautl
-    tap_code(KC_NUMLOCK);
-  }
 };
 
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPACE, KC_DELETE);

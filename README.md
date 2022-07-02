@@ -11,6 +11,6 @@
 - [x] Key Override for `shift+backspace`=`delete`
 - [x] `GUI_TOG` instead of function for Win Lock
 - [x] fix oneshot layer with media key
+- [x] revise start up RGB mode and color
 
 # Known Issue
-- Startup RGB color set to red instead of white
