@@ -1,4 +1,4 @@
-/* Copyright 2021 Shigure
+/* Copyright 2022 Shigure
 
 ver. 10/10/2021
 Some functions modified based on jonavin's keymap and Gigahawk's keymap 

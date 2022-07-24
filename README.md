@@ -1,6 +1,6 @@
-# QMK Firmware Archive - GMMK Pro
+# QMK Firmware for GMMK Pro ANSI Rev1
 
-# Working Functions
+## Working Functions
 - [x] Encoder
 - [x] Advanced Tap Dance
 - [x] One shot mods and layer
@@ -13,4 +13,7 @@
 - [x] fix oneshot layer with media key
 - [x] revise start up RGB mode and color
 
-# Known Issue
+## Use QMK CLI to flash
+`qmk flash -kb gmmk/pro/rev1/ansi -km shigure -j 32`
+
+## Known Issue
