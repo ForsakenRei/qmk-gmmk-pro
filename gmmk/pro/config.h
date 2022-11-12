@@ -18,13 +18,6 @@
 
 #include "config_common.h"
 
-/* USB Device descriptor parameter */
-#define DEVICE_VER 0x0001
-#define VENDOR_ID 0x320F
-#define PRODUCT_ID 0x5044
-#define MANUFACTURER Glorious
-#define PRODUCT GMMK Pro
-
 /* key matrix size */
 #define MATRIX_ROWS 11
 #define MATRIX_COLS 8
@@ -64,14 +57,8 @@
 
 #define DRIVER_COUNT 2
 
-#define RGB_MATRIX_STARTUP_SAT 0
-#define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_SOLID_COLOR
-
-/* Send up to 4 key press events per scan */
-#define QMK_KEYS_PER_SCAN 4
-
 /* Set debounce time to 5ms */
 #define DEBOUNCE 5
 
 /* Force NKRO on boot up regardless of the setting saved in the EEPROM (uncomment to enable it) */
-// #define FORCE_NKRO
+#define FORCE_NKRO
