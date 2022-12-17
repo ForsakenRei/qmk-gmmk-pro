@@ -87,6 +87,7 @@ void sft_reset(qk_tap_dance_state_t *state, void *user_data);
 #define DC_MUTE C(S(KC_M)) // used for mute/unmute
 #define OSM_ALT OSM(MOD_LALT) // one shot mods
 #define OSM_CTL OSM(MOD_LCTL)
+#define SFT_DEL S(KC_DEL)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -125,7 +126,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	
     [2] = LAYOUT( // rgb and media
         _______, _______, _______, _______, NK_TOGG, KC_MPRV, KC_MNXT, KC_MPLY, KC_MSTP, KC_VOLD, KC_VOLU, RGB_TOG, RGB_M_P, KC_SLEP,          _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          RGB_SAI,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, SFT_DEL,          RGB_SAI,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, QK_BOOT,          RGB_SAD,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          RGB_HUI,
         _______,          _______, _______, KC_CALC, _______, _______, _______, TSK_MGR, _______, _______, _______,          _______, RGB_MOD, RGB_HUD,
