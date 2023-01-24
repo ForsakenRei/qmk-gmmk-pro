@@ -366,8 +366,8 @@ void sft_finished(tap_dance_state_t *state, void*user_data)
   switch (sft_tap_state.state)
   {
     case TD_SINGLE_TAP:
-      tap_code(KC_RSFT);
-      // set_oneshot_layer(_L3, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED);
+      //tap_code(KC_RSFT);
+      set_oneshot_layer(_L3, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED);
       break;
     case TD_SINGLE_HOLD:
       register_code(KC_RSFT);

@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TAPPING_TOGGLE 2
 
 /*  Handle GRAVESC combo keys */
-#define GRAVE_ESC_ALT_OVERRIDE
-    //Always send Escape if Alt is pressed
+// #define GRAVE_ESC_ALT_OVERRIDE
+// #define GRAVE_ESC_SHIFT_OVERRIDE
 #define GRAVE_ESC_CTRL_OVERRIDE
     //Always send Escape if Control is pressed
 
