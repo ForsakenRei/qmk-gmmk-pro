@@ -16,8 +16,6 @@
 
 #pragma once
 
-#include "config_common.h"
-
 /* key matrix size */
 #define MATRIX_ROWS 11
 #define MATRIX_COLS 8
@@ -56,9 +54,6 @@
 #define DRIVER_2_EN C13
 
 #define DRIVER_COUNT 2
-
-/* Set debounce time to 5ms */
-#define DEBOUNCE 5
 
 /* Force NKRO on boot up regardless of the setting saved in the EEPROM (uncomment to enable it) */
 #define FORCE_NKRO

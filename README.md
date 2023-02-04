@@ -14,6 +14,8 @@
 - [x] revise start up RGB mode and color
 
 ## Use QMK CLI to flash
+`qmk compile -kb gmmk/pro/rev/ansi -km shigure -j 32`
+
 `qmk flash -kb gmmk/pro/rev1/ansi -km shigure -j 32`
 
 ## Known Issue
