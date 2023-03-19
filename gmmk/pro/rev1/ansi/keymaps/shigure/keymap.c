@@ -31,10 +31,6 @@ void keyboard_post_init_user(void) {
   #ifdef RGB_MATRIX_ENABLE
        rgb_matrix_sethsv(0, 0, 0); // set default RGB color
   #endif 
-  if (IS_HOST_LED_ON(USB_LED_NUM_LOCK))
-  { // turn on Num lock by defautl
-    tap_code(KC_NUM);
-  }
 };
 
 enum custom_keycodes
@@ -155,7 +151,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
   switch (get_highest_layer(layer_state))
   {
   case _BASE:
-    if (IS_HOST_LED_ON(USB_LED_CAPS_LOCK))
+    if (host_keyboard_led_state().caps_lock)
     {
       for (uint8_t i = 0; i < ARRAYSIZE(LED_SIDE); i++)
       {
