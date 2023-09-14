@@ -37,4 +37,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ONESHOT_TIMEOUT 1500
 
 #define RGB_MATRIX_TIMEOUT 900000 // number of milliseconds to wait until rgb automatically turns off
-#define RGB_DISABLE_WHEN_USB_SUSPENDED 1
